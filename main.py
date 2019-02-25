@@ -19,6 +19,9 @@ class PasswordManagerWidget(BoxLayout):
 class SettingsWidget(BoxLayout):
     pass
 
+class ConfigurationWidget(BoxLayout):
+    pass
+
 class RootWidget(BoxLayout):
     def clear(self):
         self.clear_widgets()
