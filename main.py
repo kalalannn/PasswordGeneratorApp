@@ -10,6 +10,8 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.textinput import TextInput
 from kivy.core.clipboard import Clipboard
+from kivy.graphics import Rectangle
+from kivy.core.image import Image
 
 Config.set('graphics', 'resizeable', '0')
 Config.set('graphics', 'width', '640')
@@ -182,6 +184,16 @@ class RootWidget(BoxLayout):
     def __init__(self, **kwargs):
         super(RootWidget, self).__init__(**kwargs)
         self.orientation = 'vertical'
+        self.texture = Image('bg.jpg').texture
+        with self.canvas:
+            self.rect = Rectangle(texture=self.texture, size=self.size,
+                                   pos=self.pos)
+
+        def update_rect(instance, value):
+            instance.rect.pos = instance.pos
+            instance.rect.size = instance.size
+
+        self.bind(pos=update_rect, size=update_rect)
 
         self.menu = MenuWidget(size_hint=(1, .1))
         self.widg = PasswordGeneratorWidget(size_hint=(1, .9))
