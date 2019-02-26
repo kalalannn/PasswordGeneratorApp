@@ -21,4 +21,4 @@ class Password(object):
             gen += SEPR
         gen = list(gen)
         random.shuffle(gen)
-        return  ''.join([random.choice(gen) for x in range(self.count)])
+        self.label =  ''.join([random.choice(gen) for x in range(self.count)])
