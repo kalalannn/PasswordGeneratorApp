@@ -11,7 +11,7 @@ class Password(object):
         self.numeric = numeric
         self.sepr = sepr
 
-    def genPasswd(self):
+    def gen_passwd(self):
         gen = LOWCASE
         if self.upperCase:
             gen += UPPERCASE
@@ -21,4 +21,4 @@ class Password(object):
             gen += SEPR
         gen = list(gen)
         random.shuffle(gen)
-        self.label =  ''.join([random.choice(gen) for x in range(self.count)])
+        return  ''.join([random.choice(gen) for x in range(self.count)])

@@ -1,10 +1,12 @@
-import passwdgen
+import passwgen
 from kivy.app import App 
 from kivy.config import Config
 from kivy.uix.widget import Widget
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.checkbox import CheckBox
+from kivy.uix.label import Label
+from kivy.uix.gridlayout import GridLayout
 
 Config.set('graphics', 'resizeable', '0')
 Config.set('graphics', 'width', '640')
@@ -19,7 +21,10 @@ class PasswordManagerWidget(BoxLayout):
 class SettingsWidget(BoxLayout):
     pass
 
-class ConfigurationWidget(BoxLayout):
+class OutputWidget(GridLayout):
+    def generate_all(self):
+        for x in range(9):
+            self.add_widget(Label(text=passwgen.Password().gen_passwd()))
     pass
 
 class RootWidget(BoxLayout):
@@ -34,6 +39,12 @@ class RootWidget(BoxLayout):
         elif state == 'SettingsWidget':
             widg = SettingsWidget()
         self.ids.widg.add_widget(widg)
+    uppercase = False
+    numbers = False
+    sepr = False
+    def generate(self):
+        self.ids.widg.ids.output.generate_all()
+        pass
     pass
 
 
