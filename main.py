@@ -29,20 +29,33 @@ class OutputWidget(GridLayout):
             self.add_widget(Label(text=self.password.generate_password()))
     pass
 
+class MenuWidget(BoxLayout):
+    pass
+
 class RootWidget(BoxLayout):
+    def __init__(self, **kwargs):
+        super(RootWidget, self).__init__(**kwargs)
+        self.orientation = 'vertical'
+        self.menu = MenuWidget(size_hint=(1, .1))
+        self.add_widget(self.menu)
+        self.widg = PasswordGeneratorWidget(size_hint=(1, .9))
+        self.add_widget(self.widg)
     def clear(self):
         self.clear_widgets()
     def next_state(self, state):
-        self.ids.widg.clear_widgets()
+        self.widg.clear_widgets()
         if state == 'PasswordGeneratorWidget':
-            self.widg = PasswordGeneratorWidget()
+            self.new_widg = PasswordGeneratorWidget()
         elif state == 'PasswordManagerWidget':
-            self.widg = PasswordManagerWidget()
+            self.new_widg = PasswordManagerWidget()
         elif state == 'SettingsWidget':
-            self.widg = SettingsWidget()
-        self.ids.widg.add_widget(self.widg)
+            self.new_widg = SettingsWidget()
+        self.widg.add_widget(self.new_widg)
     def generate(self):
-        self.widg.ids.output.generate_all()
+        try:
+            self.new_widg.ids.output.generate_all()
+        except:
+            self.widg.ids.output.generate_all()
         pass
     pass
 
