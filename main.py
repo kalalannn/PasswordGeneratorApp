@@ -30,6 +30,7 @@ class ConfigurationWidget(BoxLayout):
         self.uppercheck = CheckBoxWidget(size_hint=(.25, 1))
         self.numericcheck = CheckBoxWidget(size_hint=(.25, 1))
         self.seprcheck = CheckBoxWidget(size_hint=(.25, 1))
+
         self.uppercheck.label.text = 'UPPERCASE (A-Z)'
         self.numericcheck.label.text = 'Numeric (0-9)'
         self.seprcheck.label.text = "Separators {'-', '_'}"
@@ -52,6 +53,7 @@ class ConfigurationWidget(BoxLayout):
         self.box.add_widget(self.box.generator_layout)
 
         self.box.count_layout.input = LabelInputWidget(size_hint=(.5, .5))
+
         self.box.generator_layout.generate = Button(
             text = 'Generate',
             size_hint = (.4, 1)
@@ -59,8 +61,10 @@ class ConfigurationWidget(BoxLayout):
 
         self.box.count_layout.add_widget(self.box.count_layout.input)
         self.box.generator_layout.add_widget(self.box.generator_layout.generate)
+
         self.box.generator_layout.generate.bind(on_press=self.generate)
-        self.box.count_layout.input.text_input.bind(on_text_validate=self.on_text)
+        self.box.count_layout.input.text_input.bind(on_text_validate=self.enter_input)
+
     def change_upper(self, checkbox, value):
         self.parent.output.password.uppercase = value
     def change_numeric(self, checkbox, value):
@@ -70,15 +74,12 @@ class ConfigurationWidget(BoxLayout):
 
     def generate(self, instance):
         self.parent.children[0].update()
-    def on_text(self, instance):
+    def enter_input(self, instance):
         int_input = self.box.count_layout.input.text_input.text
         if int_input.isdigit():
             int_input = int(int_input)
             if  1 < int_input < 25:
                self.parent.output.password.count = int_input
-        else:
-            pass
-    pass
 
 class CheckBoxWidget(BoxLayout):
     text = ''
@@ -103,12 +104,12 @@ class PasswordGeneratorWidget(BoxLayout):
     def __init__(self, **kwargs):
         super(PasswordGeneratorWidget, self).__init__(**kwargs)
         self.orientation = 'vertical'
-        self.conf = ConfigurationWidget(size_hint=(1, .35))
-        self.add_widget(self.conf)
 
+        self.conf = ConfigurationWidget(size_hint=(1, .35))
         self.output = OutputWidget(size_hint=(1, .65))
+
+        self.add_widget(self.conf)
         self.add_widget(self.output)
-    pass
 
 class PasswordManagerWidget(BoxLayout):
     pass
@@ -124,11 +125,13 @@ class OutputWidget(GridLayout):
         self.password = Password()
         self.labels = []
         self.create_all()
+
     def generate_all(self):
         self.labels.clear()
         for x in range(9):
             self.password.generate_password()
             self.labels.append(self.password.label)
+
     def create_all(self):
         self.generate_all()
         for x in self.labels:
@@ -139,8 +142,7 @@ class OutputWidget(GridLayout):
                     multiline = False
                     )
             self.add_widget(self.label)
-    def copy_to_clipboard(self):
-        Clipboard.copy(self.label.text)
+
     def update(self):
         self.generate_all()
         a=0
@@ -148,12 +150,12 @@ class OutputWidget(GridLayout):
             label.text = self.labels[a]
             a += 1
 
-        pass
 class MenuWidget(BoxLayout):
     def __init__(self, **kwargs):
         super(MenuWidget, self).__init__(**kwargs)
         self.orientation = 'horizontal'
         self.cols = 3
+
         self.generator = Button(text='Generator')
         self.manager = Button(text='Manager')
         self.settings = Button(text='Settings')
@@ -165,6 +167,7 @@ class MenuWidget(BoxLayout):
         self.add_widget(self.generator)
         self.add_widget(self.manager)
         self.add_widget(self.settings)
+
     def run_generator(self, instance):
         self.parent.widg.clear_widgets()
         self.parent.widg.add_widget(PasswordGeneratorWidget())
@@ -175,27 +178,16 @@ class MenuWidget(BoxLayout):
         self.parent.widg.clear_widgets()
         self.parent.widg.add_widget(SettingsWidget())
 
-
-
 class RootWidget(BoxLayout):
     def __init__(self, **kwargs):
         super(RootWidget, self).__init__(**kwargs)
         self.orientation = 'vertical'
-        self.menu = MenuWidget(size_hint=(1, .1))
-        self.add_widget(self.menu)
-        self.widg = PasswordGeneratorWidget(size_hint=(1, .9))
-        self.add_widget(self.widg)
 
-    def next_state(self, state):
-        self.remove_widget(self.children[0])
-        if state == 'PasswordGeneratorWidget':
-            self.add_widget(PasswordGeneratorWidget())
-        elif state == 'PasswordManagerWidget':
-            self.add_widget(PasswordManagerWidget())
-        elif state == 'SettingsWidget':
-            self.add_widget(SettingsWidget())
-    def update_output(self):
-        self.children[0].children[0].update()
+        self.menu = MenuWidget(size_hint=(1, .1))
+        self.widg = PasswordGeneratorWidget(size_hint=(1, .9))
+
+        self.add_widget(self.menu)
+        self.add_widget(self.widg)
 
 class PasswordGeneratorApp(App):
     def build(self):
