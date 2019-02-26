@@ -11,7 +11,7 @@ class Password(object):
         self.numeric = numeric
         self.sepr = sepr
 
-    def gen_passwd(self):
+    def generate_password(self):
         gen = LOWCASE
         if self.upperCase:
             gen += UPPERCASE

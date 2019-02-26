@@ -1,4 +1,4 @@
-import passwgen
+from passwgen import Password
 from kivy.app import App 
 from kivy.config import Config
 from kivy.uix.widget import Widget
@@ -22,9 +22,11 @@ class SettingsWidget(BoxLayout):
     pass
 
 class OutputWidget(GridLayout):
+    password = Password()
     def generate_all(self):
+        self.clear_widgets()
         for x in range(9):
-            self.add_widget(Label(text=passwgen.Password().gen_passwd()))
+            self.add_widget(Label(text=self.password.generate_password()))
     pass
 
 class RootWidget(BoxLayout):
@@ -33,17 +35,14 @@ class RootWidget(BoxLayout):
     def next_state(self, state):
         self.ids.widg.clear_widgets()
         if state == 'PasswordGeneratorWidget':
-            widg = PasswordGeneratorWidget()
+            self.widg = PasswordGeneratorWidget()
         elif state == 'PasswordManagerWidget':
-            widg = PasswordManagerWidget()
+            self.widg = PasswordManagerWidget()
         elif state == 'SettingsWidget':
-            widg = SettingsWidget()
-        self.ids.widg.add_widget(widg)
-    uppercase = False
-    numbers = False
-    sepr = False
+            self.widg = SettingsWidget()
+        self.ids.widg.add_widget(self.widg)
     def generate(self):
-        self.ids.widg.ids.output.generate_all()
+        self.widg.ids.output.generate_all()
         pass
     pass
 
