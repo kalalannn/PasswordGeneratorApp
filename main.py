@@ -24,8 +24,6 @@ class PasswordGeneratorWidget(BoxLayout):
 
         self.output = OutputWidget(size_hint=(1, .65))
         self.add_widget(self.output)
-    def generate_output(self):
-        self.children[0].update()
     pass
 
 class PasswordManagerWidget(BoxLayout):
@@ -57,6 +55,7 @@ class OutputWidget(GridLayout):
         for label in self.children:
             label.text = self.labels[a]
             a += 1
+
         pass
 class MenuWidget(BoxLayout):
     pass
@@ -78,9 +77,19 @@ class RootWidget(BoxLayout):
             self.add_widget(PasswordManagerWidget())
         elif state == 'SettingsWidget':
             self.add_widget(SettingsWidget())
-    def generate(self):
-        self.children[0].generate_output()
-
+    def update_output(self):
+        self.children[0].children[0].update()
+    def update_parameters(self, text):
+        if text == 'UPPERCASE (A-Z)':
+            self.children[0].children[0].password.uppercase = True
+        elif text == 'Numeric (0-9)':
+            self.children[0].children[0].password.numeric = True
+        elif text == "Separators {'-', '_'}":
+            self.children[0].children[0].password.sepr = True
+        else:
+            self.children[0].children[0].password.uppercase = False
+            self.children[0].children[0].password.numeric = False
+            self.children[0].children[0].password.sepr = False
 
 class PasswordGeneratorApp(App):
     def build(self):

@@ -5,15 +5,15 @@ NUMERIC = '0123456789'
 SEPR = '_-'
 class Password(object):
     label = ''
-    def __init__(self, count=8, upperCase=False, numeric=False, sepr=False):
+    def __init__(self, count=8, uppercase=False, numeric=False, sepr=False):
         self.count = count
-        self.upperCase = upperCase
+        self.uppercase = uppercase
         self.numeric = numeric
         self.sepr = sepr
 
     def generate_password(self):
         gen = LOWCASE
-        if self.upperCase:
+        if self.uppercase:
             gen += UPPERCASE
         if self.numeric:
             gen += NUMERIC
