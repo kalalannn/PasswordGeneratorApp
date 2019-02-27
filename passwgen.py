@@ -12,6 +12,8 @@ class Password(object):
         self.sepr = sepr
 
     def generate_password(self):
+        if not 4 < self.count < 20 :
+            self.count = 8
         gen = LOWCASE
         if self.uppercase:
             gen += UPPERCASE
