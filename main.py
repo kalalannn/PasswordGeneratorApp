@@ -1,4 +1,5 @@
 from passwgen import Password
+from kivy import app
 from kivy.app import App 
 from kivy.config import Config
 from kivy.uix.gridlayout import GridLayout
@@ -364,14 +365,17 @@ class MenuWidget(BoxLayout):
         self.generator = Button(text='Generator')
         self.manager = Button(text='Manager')
         self.about = Button(text='About')
+        self.exit_btn = Button(text='Exit')
 
         self.generator.bind(on_press=self.run_generator)
         self.manager.bind(on_press=self.run_manager)
         self.about.bind(on_press=self.run_about)
+        self.exit_btn.bind(on_press=self.exit)
     
         self.add_widget(self.generator)
         self.add_widget(self.manager)
         self.add_widget(self.about)
+        self.add_widget(self.exit_btn)
 
     def run_generator(self, instance):
         self.parent.widg.clear_widgets()
@@ -382,6 +386,8 @@ class MenuWidget(BoxLayout):
     def run_about(self, instance):
         self.parent.widg.clear_widgets()
         self.parent.widg.add_widget(AboutWidget())
+    def exit(self, instance):
+        app.App.get_running_app().stop()
 
 class PasswordGeneratorWidget(BoxLayout):
     def __init__(self, **kwargs):
@@ -417,6 +423,8 @@ class RootWidget(BoxLayout):
         self.add_widget(self.widg)
 
 class PasswordGeneratorApp(App):
+    def __init__(self, **kwargs):
+        super(PasswordGeneratorApp, self).__init__(**kwargs)
     def build(self):
         root = RootWidget()
         return self.root
