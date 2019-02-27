@@ -1,3 +1,4 @@
+# Author: Nikolaj Vorobiev
 from passwgen import Password
 from kivy import app
 from kivy.app import App 
