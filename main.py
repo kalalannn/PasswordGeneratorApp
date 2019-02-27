@@ -320,11 +320,11 @@ class AboutWidget(BoxLayout):
 
         self.label = Label(
             text='Password Generator',
-            font_size = '22sp',
-            size_hint=(1, .2)
+            font_size = '26sp',
+            size_hint=(1, .3)
         )
 
-        self.man = ManualWidget(size_hint=(1, .4))
+        self.man = ManualWidget(size_hint=(1, .3))
         self.information = InformationWidget(size_hint= (1, .15))
 
         self.add_widget(self.label)
