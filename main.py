@@ -85,9 +85,9 @@ class InformationWidget(BoxLayout):
         self.author = AnchorLayout(anchor_x='right', size_hint=(1, .3))
         self.rights = AnchorLayout(anchor_x='right', size_hint=(1, .3))
 
-        self.version.label = AboutLabel(text='version: 1.0')
+        self.version.label = AboutLabel(text='version: 1.2')
         self.author.label = AboutLabel(text='Author: Nikolaj Vorobiev')
-        self.rights.label = AboutLabel(text='Licence: GNU GPLv3')
+        self.rights.label = AboutLabel(text='License: GNU GPLv3')
 
         self.version.label.size = (100, 30)
         self.author.label.size = (100, 30)
