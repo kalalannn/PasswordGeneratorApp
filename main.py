@@ -1,6 +1,5 @@
 # Author: Nikolaj Vorobiev
 from passwgen import Password
-from kivy import app
 from kivy.app import App 
 from kivy.config import Config
 from kivy.uix.gridlayout import GridLayout
@@ -17,6 +16,7 @@ from kivy.core.image import Image
 
 Config.set('graphics', 'width', '640')
 Config.set('graphics', 'height', '700')
+imag = 'bg.jpg'
 
 class CheckBoxWidget(BoxLayout):
     def __init__(self, **kwargs):
@@ -388,7 +388,7 @@ class MenuWidget(BoxLayout):
         self.parent.widg.clear_widgets()
         self.parent.widg.add_widget(AboutWidget())
     def exit(self, instance):
-        app.App.get_running_app().stop()
+        App.get_running_app().stop()
 
 class PasswordGeneratorWidget(BoxLayout):
     def __init__(self, **kwargs):
@@ -406,7 +406,7 @@ class RootWidget(BoxLayout):
         super(RootWidget, self).__init__(**kwargs)
         self.orientation = 'vertical'
         self.padding = [10, 0, 10, 10]
-        self.texture = Image('bg.jpg').texture
+        self.texture = Image(imag).texture
         with self.canvas:
             self.rect = Rectangle(texture=self.texture, size=self.size,
                                   pos=self.pos)
@@ -427,12 +427,7 @@ class PasswordGeneratorApp(App):
     def __init__(self, **kwargs):
         super(PasswordGeneratorApp, self).__init__(**kwargs)
     def build(self):
-        root = RootWidget()
-        return self.root
-
-def __main__():
-    root = PasswordGeneratorApp()
-    root.run()
+        return RootWidget()
 
 if __name__ == '__main__':
-    __main__()
+    PasswordGeneratorApp().run()
